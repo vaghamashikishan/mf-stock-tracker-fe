@@ -38,6 +38,8 @@ import {
 import { useGlobalContext } from "../context/GlobalContext";
 import { useTheme } from "../context/ThemeContext";
 import { showToast } from "../utils/toast";
+import { api } from "../utils/api";
+import { apiPath } from "../utils/api-path";
 
 const navItems = [
   { label: "Dashboard", path: "/", icon: LayoutDashboard },
@@ -55,9 +57,9 @@ const AppLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
     setState({ user: null });
+    await api.post(apiPath.LOGOUT, {});
     showToast.success("Logged out successfully");
     navigate("/login");
   };

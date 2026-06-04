@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/GlobalContext";
 import { api } from "../utils/api";
+import { apiPath } from "../utils/api-path";
 import type { User } from "../types";
 import AppLayout from "../components/AppLayout";
 import Dashboard from "../pages/Dashboard";
@@ -19,19 +20,13 @@ function AppRoutes() {
 
   useEffect(() => {
     const verifyUser = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setIsVerifying(false);
-        return;
-      }
-
       try {
         const response = await api.get<{ message: string; user: User }>(
-          "/users/verify",
+          apiPath.VERIFY_USER,
         );
         setState({ user: response.user });
-      } catch (err: unknown) {
-        localStorage.removeItem("token");
+      } catch {
+        // await api.post(apiPath.LOGOUT, {});
         setState({ user: null });
       } finally {
         setIsVerifying(false);

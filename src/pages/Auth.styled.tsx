@@ -99,6 +99,54 @@ export const PasswordToggleButton = styled.button`
   }
 `;
 
+export const AuthDivider = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border-default);
+  }
+
+  span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+`;
+
+export const GoogleButton = styled.button`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-default);
+  border-radius: 0.5rem;
+  background: var(--bg-subtle);
+  color: var(--text-default);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--bg-surface);
+    border-color: var(--accent-primary);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
 export const AuthButton = styled.button`
   width: 100%;
   background-color: var(--accent-primary);

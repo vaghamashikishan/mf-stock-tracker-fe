@@ -36,6 +36,7 @@ import {
   BadgeType,
 } from "./Transactions.styled";
 import { api } from "../utils/api";
+import { apiPath } from "../utils/api-path";
 import { showToast } from "../utils/toast";
 import type { Asset, Transaction, CreateTransactionRequest } from "../types";
 
@@ -86,7 +87,7 @@ const Transactions = () => {
     setIsLoading(true);
     try {
       const res = await api.get<Transaction[]>(
-        `/transactions/?limit=${PAGE_SIZE}&offset=${currentOffset}`,
+        `${apiPath.GET_ALL_TRANSACTIONS}?limit=${PAGE_SIZE}&offset=${currentOffset}`,
       );
       setTransactions(res ?? []);
       setTotal(1000);
@@ -101,7 +102,9 @@ const Transactions = () => {
 
   const fetchAssets = useCallback(async () => {
     try {
-      const res = await api.get<Asset[]>(`/assets/?limit=200&offset=0`);
+      const res = await api.get<Asset[]>(
+        `${apiPath.GET_ALL_ASSETS}?limit=200&offset=0`,
+      );
       setAssets(res ?? []);
     } catch (err) {
       const message =
@@ -263,10 +266,10 @@ const Transactions = () => {
         if (formData.price > 0) updatePayload.price = formData.price;
         if (formData.txn_date)
           updatePayload.txn_date = toISODate(formData.txn_date);
-        await api.put(`/transactions/`, updatePayload);
+        await api.put(apiPath.UPDATE_TRANSACTION(editingTxn.id), updatePayload);
         showToast.success("Transaction updated successfully");
       } else {
-        await api.post(`/transactions/`, {
+        await api.post(apiPath.CREATE_TRANSACTION, {
           ...formData,
           txn_date: toISODate(formData.txn_date),
         });
@@ -286,7 +289,7 @@ const Transactions = () => {
     if (!deleteTarget) return;
     setDeleteLoading(true);
     try {
-      await api.delete(`/transactions/${deleteTarget.id}`);
+      await api.delete(apiPath.DELETE_TRANSACTION(deleteTarget.id));
       showToast.success("Transaction deleted");
       closeDeleteDialog();
       const newOffset =

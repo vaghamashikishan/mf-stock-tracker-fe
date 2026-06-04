@@ -14,6 +14,7 @@ import {
   EmptyState,
 } from "./Portfolio.styled";
 import { api } from "../utils/api";
+import { apiPath } from "../utils/api-path";
 import { showToast } from "../utils/toast";
 import type { Holding } from "../types";
 
@@ -31,7 +32,7 @@ const Portfolio = () => {
     const fetchHoldings = async () => {
       setIsLoading(true);
       try {
-        const data = await api.get<Holding[]>("/holdings");
+        const data = await api.get<Holding[]>(apiPath.GET_HOLDINGS);
         setHoldings(Array.isArray(data) ? data : []);
       } catch (err: unknown) {
         showToast.error(
