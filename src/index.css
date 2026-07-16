@@ -3,14 +3,12 @@
 /* Enable class-based dark mode for Tailwind v4 dark: variants */
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
+/* ─── Light theme (default) ─────────────────────────────────────── */
+:root {
   --color-primary: #3b82f6;
   --color-secondary: #0ea5e9;
   --font-sans: "Inter", system-ui, sans-serif;
-}
 
-/* ─── Light theme (default) ─────────────────────────────────────── */
-:root {
   /* Backgrounds */
   --bg-page: #f8fafc;
   --bg-surface: #ffffff;
@@ -51,6 +49,10 @@
 
 /* ─── Dark theme — warm charcoal ─────────────── */
 .dark {
+  --color-primary: #3b82f6;
+  --color-secondary: #0ea5e9;
+  --font-sans: "Inter", system-ui, sans-serif;
+
   /* Backgrounds: warm stone tones, not pure black */
   --bg-page: #1c1917;
   --bg-surface: #28251f;
