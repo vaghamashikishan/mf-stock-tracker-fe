@@ -35,6 +35,7 @@ import {
   DeleteConfirmButton,
 } from "./Assets.styled";
 import { api } from "../utils/api";
+import { apiPath } from "../utils/api-path";
 import { showToast } from "../utils/toast";
 import type { Asset, CreateAssetRequest } from "../types";
 
@@ -78,7 +79,7 @@ const Assets = () => {
     setIsLoading(true);
     try {
       const res = await api.get<Asset[]>(
-        `/assets/?limit=${PAGE_SIZE}&offset=${currentOffset}`,
+        `${apiPath.GET_ALL_ASSETS}?limit=${PAGE_SIZE}&offset=${currentOffset}`,
       );
       setAssets(res ?? []);
       setTotal(1000);
@@ -228,10 +229,10 @@ const Assets = () => {
         const updatePayload = Object.fromEntries(
           Object.entries(formData).filter(([, v]) => v !== ""),
         );
-        await api.put(`/assets/${editingAsset.id}`, updatePayload);
+        await api.put(apiPath.UPDATE_ASSET(editingAsset.id), updatePayload);
         showToast.success("Asset updated successfully");
       } else {
-        await api.post(`/assets/`, formData);
+        await api.post(apiPath.CREATE_ASSET, formData);
         showToast.success("Asset created successfully");
       }
       closeDialog();
@@ -248,7 +249,7 @@ const Assets = () => {
     if (!deleteTarget) return;
     setDeleteLoading(true);
     try {
-      await api.delete(`/assets/${deleteTarget.id}`);
+      await api.delete(apiPath.DELETE_ASSET(deleteTarget.id));
       showToast.success("Asset deleted");
       closeDeleteDialog();
       const newOffset =

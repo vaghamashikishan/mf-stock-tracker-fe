@@ -16,6 +16,7 @@ import {
 import { api } from "../utils/api";
 import type { RegisterRequest, RegisterResponse } from "../types";
 import { showToast } from "../utils/toast";
+import { apiPath } from "../utils/api-path";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -31,11 +32,14 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await api.post<RegisterResponse>("/users/", formData);
+      await api.post<RegisterResponse>(
+        apiPath.REGISTER_USER_BY_EMAIL,
+        formData,
+      );
       showToast.success("Account created successfully! Please log in.");
       navigate("/login");
     } catch (err: unknown) {

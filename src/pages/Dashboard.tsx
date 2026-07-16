@@ -25,6 +25,7 @@ import AssetCharts from "../components/dashboard/AssetCharts";
 import TransactionCharts from "../components/dashboard/TransactionCharts";
 import DashboardFilters from "../components/dashboard/DashboardFilters";
 import AssetTransactionPanel from "../components/dashboard/AssetTransactionPanel";
+import { apiPath } from "../utils/api-path";
 
 const Dashboard = () => {
   // ─── Data ─────────────────────────────────────────────────────────────────
@@ -36,7 +37,7 @@ const Dashboard = () => {
     const fetchAll = async () => {
       setLoadingHoldings(true);
       try {
-        const h = await api.get<Holding[]>("/holdings");
+        const h = await api.get<Holding[]>(apiPath.GET_HOLDINGS);
         setHoldings(Array.isArray(h) ? h : []);
       } catch (err) {
         showToast.error(
@@ -47,7 +48,7 @@ const Dashboard = () => {
       }
 
       try {
-        const t = await api.get<Transaction[]>("/transactions");
+        const t = await api.get<Transaction[]>(apiPath.GET_ALL_TRANSACTIONS);
         setTransactions(Array.isArray(t) ? t : []);
       } catch (err) {
         showToast.error(
